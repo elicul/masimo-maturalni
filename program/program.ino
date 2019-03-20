@@ -1,14 +1,15 @@
 // Pin initialization
 const int interruptBtn = 2;
 const int injectorPowerBtn = 5;
-
+const int potentiometer = 2; // Analog Pin
 const int led = 13;   
 
 unsigned long interruptTime = 0;
 unsigned long lastInterruptTime = millis();
 
 // Program Modes: 1 - manual, 2 - automatic
-int programMode = 1;
+int programMode = 2;
+int potentiometerValue = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -23,6 +24,7 @@ void setup() {
 }
 
 void loop() {
+  potentiometerValue = analogRead(potentiometer);
   
   if(programMode == 1) {
     if(digitalRead(injectorPowerBtn) == LOW)
@@ -33,7 +35,7 @@ void loop() {
     digitalWrite(led, LOW); 
     delay(1000); 
     digitalWrite(led, HIGH); 
-    delay(250); 
+    delay(potentiometerValue * 2); 
     digitalWrite(led, LOW); 
   }
 }
